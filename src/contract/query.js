@@ -1,28 +1,21 @@
-import { LCDClient } from '@terra-money/terra.js'
-import { IdentifiedClientState } from '@terra-money/terra.js/dist/core/ibc/msgs/client/IdentifiedClient'
-import { contractAdress } from './address'
+import { LCDClient } from "@terra-money/terra.js";
+import { IdentifiedClientState } from "@terra-money/terra.js/dist/core/ibc/msgs/client/IdentifiedClient";
 
-export const getCount = async (wallet) => {
-  const lcd = new LCDClient({
-    URL: wallet.network.lcd,
-    chainID: wallet.network.chainID,
-  })
-  return lcd.wasm.contractQuery(contractAdress(wallet), { get_count: {} })
-}
+const options = {
+  lcd: "https://lcd.terra.dev",
+  chainID: "columbus-5",
+};
 
+export const getBalance = async (token_address, account_address) => {
+  const lcd = new LCDClient({ URL: options.lcd, chainID: options.chainID });
 
-export const getBalance = async (wallet, token_address, account_address) => {
-  const lcd = new LCDClient({
-    URL: wallet.network.lcd,
-    chainID: wallet.network.chainID,
-  })
-  return lcd.wasm.contractQuery(token_address, { balance: { address: account_address } })
-}
+  return lcd.wasm.contractQuery(token_address, {
+    balance: { address: account_address },
+  });
+};
 
-export const getTokenInfo = async (wallet, contract_address) => {
-  const lcd = new LCDClient({
-    URL: wallet.network.lcd,
-    chainID: wallet.network.chainID,
-  })
-  return lcd.wasm.contractQuery(contract_address, { "token_info": {}})
-}
+export const getTokenInfo = async (contract_address) => {
+  const lcd = new LCDClient({ URL: options.lcd, chainID: options.chainID });
+
+  return lcd.wasm.contractQuery(contract_address, { token_info: {} });
+};
