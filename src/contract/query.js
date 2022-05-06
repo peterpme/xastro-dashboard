@@ -1,5 +1,4 @@
 import { LCDClient } from "@terra-money/terra.js";
-import { IdentifiedClientState } from "@terra-money/terra.js/dist/core/ibc/msgs/client/IdentifiedClient";
 
 const options = {
   lcd: "https://lcd.terra.dev",
