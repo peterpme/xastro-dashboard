@@ -121,6 +121,7 @@ const fetchData = async () => {
 };
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState(0);
   const [supply, setSupply] = useState(0);
   const [balances, setBalances] = useState({});
@@ -129,6 +130,7 @@ function App() {
     setSupply(supply);
     setBalance(balance);
     setBalances(balances);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -145,7 +147,9 @@ function App() {
   const pieData = buildData(balances);
   const percentage = (balance / supply) * 100;
 
-  return (
+  return loading ? (
+    <h1>Loading On Chain Data...</h1>
+  ) : (
     <div>
       TOTAL XASTRO OWNED BY DAOs: {formatAmount(balance)} xASTRO
       <br />
@@ -155,6 +159,7 @@ function App() {
       <button
         type="button"
         onClick={async () => {
+          setLoading(true);
           const { balance, supply, balances } = await fetchData();
           updateData({ balance, supply, balances });
         }}
