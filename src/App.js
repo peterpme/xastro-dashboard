@@ -123,7 +123,9 @@ const fetchData = async () => {
 function ItemBox({ value, label }) {
   return (
     <div style={{ textAlign: "center" }}>
-      <h4 style={{ fontWeight: 500, fontSize: 20, margin: 0 }}>{value}</h4>
+      <h4 style={{ fontWeight: 500, fontSize: 20, margin: 0, marginBottom: 4 }}>
+        {value}
+      </h4>
       <span style={{ fontSize: 12, opacity: 0.4, fontWeight: 500 }}>
         {label}
       </span>
@@ -155,7 +157,7 @@ function InfoRow({
         <ItemBox value={totalOwnedByDaos} label="TOTAL XASTRO OWNED BY DAOs" />
         <ItemBox value={totalSupply} label="TOTAL SUPPLY" />
         <ItemBox
-          value={percentCirculatingSupplyOwned}
+          value={`${percentCirculatingSupplyOwned}%`}
           label="% OF CIRCULATING SUPPLY OWNED"
         />
       </div>
@@ -197,8 +199,8 @@ function App() {
     <div>
       <div style={{ padding: 32 }}>
         <InfoRow
-          totalOwnedByDaos={formatAmount(balance)}
-          totalSupply={formatAmount(supply)}
+          totalOwnedByDaos={formatAmount(Math.floor(balance))}
+          totalSupply={formatAmount(Math.floor(supply))}
           percentCirculatingSupplyOwned={percentCirculatingSupplyOwned}
         />
       </div>
