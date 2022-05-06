@@ -137,7 +137,7 @@ function App() {
       const { balance, supply, balances } = await fetchData();
       updateData({ balance, supply, balances });
       const percentage = (balance / supply) * 100;
-      document.title = `Astro Wars Tracker ${percentage}%`;
+      document.title = `Astro Wars Tracker ${percentage.toFixed(2)}%`;
     }
 
     fetch().catch(console.error);
