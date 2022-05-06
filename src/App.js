@@ -120,6 +120,49 @@ const fetchData = async () => {
   return { balance, supply, balances: { ...balances, totalContractBalance } };
 };
 
+function ItemBox({ value, label }) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <h4 style={{ fontWeight: 500, fontSize: 20, margin: 0 }}>{value}</h4>
+      <span style={{ fontSize: 12, opacity: 0.4, fontWeight: 500 }}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function InfoRow({
+  totalOwnedByDaos,
+  totalSupply,
+  percentCirculatingSupplyOwned,
+}) {
+  return (
+    <div
+      style={{
+        padding: 24,
+        borderRadius: 16,
+        borderColor: "#FFF",
+        backgroundColor: "#0d1841",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <ItemBox value={totalOwnedByDaos} label="TOTAL XASTRO OWNED BY DAOs" />
+        <ItemBox value={totalSupply} label="TOTAL SUPPLY" />
+        <ItemBox
+          value={percentCirculatingSupplyOwned}
+          label="% OF CIRCULATING SUPPLY OWNED"
+        />
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState(0);
@@ -138,7 +181,7 @@ function App() {
       const { balance, supply, balances } = await fetchData();
       updateData({ balance, supply, balances });
       const percentage = (balance / supply) * 100;
-      document.title = `Astro Wars Tracker ${percentage.toFixed(2)}%`;
+      document.title = `xAstro Wars Tracker ${percentage.toFixed(2)}%`;
     }
 
     fetch().catch(console.error);
@@ -146,16 +189,28 @@ function App() {
 
   const pieData = buildData(balances);
   const percentage = (balance / supply) * 100;
+  const percentCirculatingSupplyOwned = (percentage || 0).toFixed(2);
 
   return loading ? (
     <h1>Loading On Chain Data...</h1>
   ) : (
     <div>
-      TOTAL XASTRO OWNED BY DAOs: {formatAmount(balance)} xASTRO
-      <br />
-      TOTAL SUPPLY: {formatAmount(supply)} xASTRO
-      <br />% OF CIRCULATING SUPPLY OWNED: {(percentage || 0).toFixed(2)}%
-      <br />
+      <div style={{ padding: 32 }}>
+        <InfoRow
+          totalOwnedByDaos={formatAmount(balance)}
+          totalSupply={formatAmount(supply)}
+          percentCirculatingSupplyOwned={percentCirculatingSupplyOwned}
+        />
+      </div>
+      <div style={{ height: 300, marginBottom: 32, marginTop: 32 }}>
+        <VictoryPie
+          data={pieData}
+          colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+          style={{
+            labels: { fill: "white", fontSize: 22 },
+          }}
+        />
+      </div>
       <button
         type="button"
         onClick={async () => {
@@ -166,13 +221,6 @@ function App() {
       >
         Update Data
       </button>
-      <div style={{ height: 300 }}>
-        <VictoryPie
-          data={pieData}
-          colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
-          style={{ labels: { fill: "white", fontSize: 18 } }}
-        />
-      </div>
     </div>
   );
 }
