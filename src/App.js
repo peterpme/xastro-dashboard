@@ -152,11 +152,11 @@ function InfoRow({
           alignItems: "center",
         }}
       >
-        <ItemBox value={totalOwnedByDaos} label="TOTAL XASTRO OWNED BY DAOs" />
-        <ItemBox value={totalSupply} label="TOTAL SUPPLY" />
+        <ItemBox value={totalOwnedByDaos} label="Total xAstro owned by DAOs" />
+        <ItemBox value={totalSupply} label="Total supply" />
         <ItemBox
           value={`${percentCirculatingSupplyOwned}%`}
-          label="% OF CIRCULATING SUPPLY OWNED"
+          label="% of circulating supply owned"
         />
       </div>
     </div>
