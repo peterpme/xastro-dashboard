@@ -121,9 +121,7 @@ const fetchData = async () => {
 function ItemBox({ value, label }) {
   return (
     <div style={{ textAlign: "center" }}>
-      <h4 style={{ fontWeight: 500, fontSize: 20, margin: 0, marginBottom: 4 }}>
-        {value}
-      </h4>
+      <h4 style={{ fontWeight: 500, fontSize: 20, margin: 0 }}>{value}</h4>
       <span style={{ fontSize: 12, opacity: 0.4, fontWeight: 500 }}>
         {label}
       </span>
