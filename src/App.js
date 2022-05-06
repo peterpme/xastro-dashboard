@@ -240,6 +240,7 @@ function App() {
             paddingBottom: 8,
             borderWidth: 0,
             borderRadius: 32,
+            cursor: "pointer",
           }}
           type="button"
           onClick={async () => {
