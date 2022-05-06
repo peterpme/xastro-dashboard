@@ -213,16 +213,35 @@ function App() {
           }}
         />
       </div>
-      <button
-        type="button"
-        onClick={async () => {
-          setLoading(true);
-          const { balance, supply, balances } = await fetchData();
-          updateData({ balance, supply, balances });
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        Update Data
-      </button>
+        <button
+          style={{
+            backgroundColor: "#5643f2",
+            color: "#FFF",
+            fontSize: 13,
+            paddingLeft: 40,
+            paddingRight: 40,
+            paddingTop: 8,
+            paddingBottom: 8,
+            borderWidth: 0,
+            borderRadius: 32,
+          }}
+          type="button"
+          onClick={async () => {
+            setLoading(true);
+            const { balance, supply, balances } = await fetchData();
+            updateData({ balance, supply, balances });
+          }}
+        >
+          Refresh Data
+        </button>
+      </div>
     </div>
   );
 }
