@@ -118,13 +118,29 @@ const fetchData = async () => {
   return { balance, supply, balances: { ...balances, totalContractBalance } };
 };
 
+function BottomMargin({ children }) {
+  return (
+    <div
+      style={{
+        marginBottom: window.innerWidth < 500 ? 24 : 0,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function ItemBox({ value, label }) {
   return (
-    <div style={{ textAlign: "center" }}>
-      <h4 style={{ fontWeight: 500, fontSize: 20, margin: 0 }}>{value}</h4>
-      <span style={{ fontSize: 12, opacity: 0.4, fontWeight: 500 }}>
-        {label}
-      </span>
+    <div
+      style={{
+        textAlign: "center",
+      }}
+    >
+      <div style={{ fontWeight: 500, fontSize: 20, marginBottom: 2 }}>
+        {value}
+      </div>
+      <div style={{ fontSize: 12, opacity: 0.4, fontWeight: 500 }}>{label}</div>
     </div>
   );
 }
@@ -145,13 +161,20 @@ function InfoRow({
     >
       <div
         style={{
-          display: "flex",
+          display: window.innerWidth < 500 ? "flex-col" : "flex",
           justifyContent: "space-around",
           alignItems: "center",
         }}
       >
-        <ItemBox value={totalOwnedByDaos} label="Total xAstro owned by DAOs" />
-        <ItemBox value={totalSupply} label="Total supply" />
+        <BottomMargin>
+          <ItemBox
+            value={totalOwnedByDaos}
+            label="Total xAstro owned by DAOs"
+          />
+        </BottomMargin>
+        <BottomMargin>
+          <ItemBox value={totalSupply} label="Total supply" />
+        </BottomMargin>
         <ItemBox
           value={`${percentCirculatingSupplyOwned}%`}
           label="% of circulating supply owned"
@@ -161,11 +184,26 @@ function InfoRow({
   );
 }
 
+function StyledTwitterLink({ name, label }) {
+  return (
+    <a
+      style={{ color: "#4c5bbb", fontSize: 14 }}
+      href={`https://twitter.com/${name}`}
+      target="_blank"
+      rel="noreferrer"
+      title={`${name} on Twitter`}
+    >
+      {label}
+    </a>
+  );
+}
+
 function App() {
   const [loading, setLoading] = useState(true);
   const [balance, setBalance] = useState(0);
   const [supply, setSupply] = useState(0);
   const [balances, setBalances] = useState({});
+  const [countdown, setCountdown] = useState(30);
 
   function updateData({ balance, supply, balances }) {
     setSupply(supply);
@@ -179,11 +217,25 @@ function App() {
       const { balance, supply, balances } = await fetchData();
       updateData({ balance, supply, balances });
       const percentage = (balance / supply) * 100;
-      document.title = `xAstro Wars Tracker ${percentage.toFixed(2)}%`;
+      document.title = `${percentage.toFixed(2)}% xAstro Wars Tracker`;
     }
 
     fetch().catch(console.error);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (countdown <= 1) {
+        const { balance, supply, balances } = await fetchData();
+        updateData({ balance, supply, balances });
+        setCountdown(30);
+      } else {
+        setCountdown((countdown) => countdown - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countdown]);
 
   const pieData = buildData(balances);
   const percentage = (balance / supply) * 100;
@@ -204,14 +256,20 @@ function App() {
     </div>
   ) : (
     <div>
-      <div style={{ padding: 32 }}>
+      <div style={{ padding: window.innerWidth < 500 ? 24 : 32 }}>
         <InfoRow
           totalOwnedByDaos={formatAmount(Math.floor(balance))}
           totalSupply={formatAmount(Math.floor(supply))}
           percentCirculatingSupplyOwned={percentCirculatingSupplyOwned}
         />
       </div>
-      <div style={{ height: 300, marginBottom: 32, marginTop: 32 }}>
+      <div
+        style={{
+          height: window.innerWidth < 500 ? 200 : 300,
+          marginBottom: 32,
+          marginTop: 32,
+        }}
+      >
         <VictoryPie
           data={pieData}
           colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
@@ -247,8 +305,24 @@ function App() {
             updateData({ balance, supply, balances });
           }}
         >
-          Refresh Data
+          Refresh Data <span style={{ opacity: 0.5 }}>({countdown})</span>
         </button>
+      </div>
+      <div
+        style={{
+          marginTop: 64,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center ",
+        }}
+      >
+        <div style={{ marginRight: 8 }}>
+          <StyledTwitterLink name="peterpme" label="web2peter" />
+        </div>{" "}
+        |
+        <div style={{ marginLeft: 8 }}>
+          <StyledTwitterLink name="AnonNgmi" label="anon intern" />
+        </div>
       </div>
     </div>
   );
