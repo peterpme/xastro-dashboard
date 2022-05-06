@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import { VictoryPie } from "victory";
 import * as query from "./contract/query";
 
+const apollo_lockdrop_address = "terra120z72wqvrtfjgyxcdnhnxn5e5chxz7ruud290n"; //  apollo
+const xastro_address = "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7"; //  xastro
+const apollo_warchest_address = "terra1hxrd8pnqytqpelape3aemprw3a023wryw7p0xn"; //  warchest
+const reactor_lockdrop_address = "terra1jnf3m3rkns52husav43zyzc857wxts00vdr8j2"; //  reactor
+const orion_address = "terra18mguewx2kvmkd4xq676xgxe795hne0a4s4qte0"; //  orion
+const retrograde_lockdown_address =
+  "terra1amcm2gv6zqznrd2hlsgru58c4ytvl9jqwu8e8y"; //  retrograde
+
 const addresses = {
   apollolockdropBalance: "Apollo Lockdrop",
   apolloWarchestBalance: "Apollo Warchest",
@@ -25,7 +33,6 @@ function getLabel(key) {
 }
 
 function buildData(balances) {
-  console.log(balances);
   return Object.keys(balances)
     .map((key, index) => {
       if (key === "totalContractBalance") {
@@ -46,14 +53,6 @@ function buildData(balances) {
     })
     .filter(Boolean);
 }
-
-const apollo_lockdrop_address = "terra120z72wqvrtfjgyxcdnhnxn5e5chxz7ruud290n"; //  apollo
-const xastro_address = "terra14lpnyzc9z4g3ugr4lhm8s4nle0tq8vcltkhzh7"; //  xastro
-const apollo_warchest_address = "terra1hxrd8pnqytqpelape3aemprw3a023wryw7p0xn"; //  warchest
-const reactor_lockdrop_address = "terra1jnf3m3rkns52husav43zyzc857wxts00vdr8j2"; //  reactor
-const orion_address = "terra18mguewx2kvmkd4xq676xgxe795hne0a4s4qte0"; //  orion
-const retrograde_lockdown_address =
-  "terra1amcm2gv6zqznrd2hlsgru58c4ytvl9jqwu8e8y"; //  retrograde
 
 const getTotalBalance = async () => {
   let totalBalanceArray = [];
@@ -166,6 +165,7 @@ function App() {
         <VictoryPie
           data={pieData}
           colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+          style={{ labels: { fill: "white", fontSize: 18 } }}
         />
       </div>
     </div>
