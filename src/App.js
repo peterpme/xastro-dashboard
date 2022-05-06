@@ -268,8 +268,10 @@ function App() {
           height: window.innerWidth < 500 ? 200 : 300,
           marginBottom: 32,
           marginTop: 32,
+          textAlign: "center",
         }}
       >
+        <h4>Share of DAO-owned xAstro</h4>
         <VictoryPie
           data={pieData}
           colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
