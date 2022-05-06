@@ -299,6 +299,7 @@ function App() {
             borderWidth: 0,
             borderRadius: 32,
             cursor: "pointer",
+            marginTop: 24,
           }}
           type="button"
           onClick={async () => {
