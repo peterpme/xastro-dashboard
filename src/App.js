@@ -192,7 +192,18 @@ function App() {
   const percentCirculatingSupplyOwned = (percentage || 0).toFixed(2);
 
   return loading ? (
-    <h1>Loading On Chain Data...</h1>
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <span style={{ fontSize: 16, textAlign: "center", padding: 12 }}>
+        Loading On Chain Data...
+      </span>
+    </div>
   ) : (
     <div>
       <div style={{ padding: 32 }}>
