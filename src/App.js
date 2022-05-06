@@ -41,14 +41,12 @@ function buildData(balances) {
 
       const value = balances[key];
       const label = getLabel(key);
-      const percent = (
-        (parseInt(value, 10) / balances.totalContractBalance) *
-        100
-      ).toFixed(1);
+      const percent =
+        (parseInt(value, 10) / balances.totalContractBalance) * 100;
 
       return {
-        label: `${label}: ${percent}%`,
-        y: value,
+        label: `${label}: ${percent.toFixed(1)}%`,
+        y: percent,
       };
     })
     .filter(Boolean);
